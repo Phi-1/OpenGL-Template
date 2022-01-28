@@ -5,8 +5,10 @@
 class Renderer {
 public:
     Renderer();
+    void drawQuad();
 private:
     unsigned int _quadVAO;
+    void _createQuadVAO();
 };
 
 #endif
