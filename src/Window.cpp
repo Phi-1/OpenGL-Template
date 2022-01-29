@@ -1,5 +1,6 @@
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 #include "Window.h"
 #include "input.h"
 #include "resources.h"
@@ -18,14 +19,13 @@ Window::Window(int width, int height, std::string title) {
 
 void Window::run() {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    Renderer renderer;
     Shader shader = resources::loadShader("./assets/shaders/default.vs", "./assets/shaders/default.fs", "default");
+    Renderer renderer = Renderer(shader);
 
     while(!glfwWindowShouldClose(_ID)) {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        shader.bind();
-        renderer.drawQuad();
+        renderer.drawQuad(glm::vec2(input::getMouseX(), input::getMouseY()), glm::vec2(100.0f, 100.0f));
 
         glfwSwapBuffers(_ID);
         glfwPollEvents();
