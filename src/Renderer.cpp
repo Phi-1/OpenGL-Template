@@ -5,14 +5,20 @@ Renderer::Renderer() {
     _createQuadVAO();
 }
 
+void Renderer::drawQuad() {
+    glBindVertexArray(_quadVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
+}
+
 void Renderer::_createQuadVAO() {
     float vertices[] = {
-        0.0f, 1.0f,
-        1.0f, 0.0f,
-        0.0f, 0.0f,
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        1.0f, 0.0f
+        -0.5f, -0.5f,
+        0.5f, 0.5f,
+        -0.5f, 0.5f,
+        -0.5f, -0.5f,
+        0.5f, -0.5f,
+        0.5f, 0.5f
     };
 
     unsigned int VBO;

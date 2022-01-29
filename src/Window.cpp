@@ -2,6 +2,8 @@
 #include <GLFW/glfw3.h>
 #include "Window.h"
 #include "input.h"
+#include "resources.h"
+#include "Renderer.h"
 #include <iostream>
 #include <string>
 
@@ -16,11 +18,14 @@ Window::Window(int width, int height, std::string title) {
 
 void Window::run() {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    Renderer renderer;
+    Shader shader = resources::loadShader("./assets/shaders/default.vs", "./assets/shaders/default.fs", "default");
 
     while(!glfwWindowShouldClose(_ID)) {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        std::cout << input::getMouseX() << ", " << input::getMouseY() << std::endl;
+        shader.bind();
+        renderer.drawQuad();
 
         glfwSwapBuffers(_ID);
         glfwPollEvents();
