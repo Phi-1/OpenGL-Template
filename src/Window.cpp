@@ -5,6 +5,7 @@
 #include "input.h"
 #include "resources.h"
 #include "Renderer.h"
+#include "Texture.h"
 #include <iostream>
 #include <string>
 
@@ -21,11 +22,12 @@ void Window::run() {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     Shader shader = resources::loadShader("./assets/shaders/default.vs", "./assets/shaders/default.fs", "default");
     Renderer renderer = Renderer(shader);
+    Texture texture = resources::loadTexture("./assets/textures/selector.png", "selector");
 
     while(!glfwWindowShouldClose(_ID)) {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        renderer.drawQuad(glm::vec2(input::getMouseX(), input::getMouseY()), glm::vec2(100.0f, 100.0f));
+        renderer.drawQuad(glm::vec2(input::getMouseX(), input::getMouseY()), glm::vec2(100.0f, 100.0f), texture);
 
         glfwSwapBuffers(_ID);
         glfwPollEvents();

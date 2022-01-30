@@ -3,13 +3,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Renderer.h"
 #include "Shader.h"
+#include "Texture.h"
 
 
 Renderer::Renderer(Shader shader) : _shader(shader) {
     _createQuadVAO();
 }
 
-void Renderer::drawQuad(glm::vec2 position, glm::vec2 size) {
+void Renderer::drawQuad(glm::vec2 position, glm::vec2 size, Texture texture) {
     glBindVertexArray(_quadVAO);
     _shader.bind();
 
@@ -20,6 +21,8 @@ void Renderer::drawQuad(glm::vec2 position, glm::vec2 size) {
     glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, 0.0f, 1.0f);
     _shader.setUniformMat4f("model", model);
     _shader.setUniformMat4f("projection", projection);
+
+    glBindTexture(GL_TEXTURE_2D, *texture.getID());
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
@@ -33,12 +36,13 @@ void Renderer::setShader(Shader shader) {
 
 void Renderer::_createQuadVAO() {
     float vertices[] = {
-        -0.5f, -0.5f,
-        0.5f, 0.5f,
-        -0.5f, 0.5f,
-        -0.5f, -0.5f,
-        0.5f, -0.5f,
-        0.5f, 0.5f
+        // Position   // Texture
+        -1.0f, -1.0f, 0.0f, 0.0f,
+         1.0f,  1.0f, 1.0f, 1.0f,
+        -1.0f,  1.0f, 0.0f, 1.0f,
+        -1.0f, -1.0f, 0.0f, 0.0f,
+         1.0f, -1.0f, 1.0f, 0.0f,
+         1.0f,  1.0f, 1.0f, 1.0f
     };
 
     unsigned int VBO;
@@ -47,7 +51,9 @@ void Renderer::_createQuadVAO() {
     glBindVertexArray(_quadVAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+    glEnableVertexAttribArray(1);
     glBindVertexArray(0);
 }

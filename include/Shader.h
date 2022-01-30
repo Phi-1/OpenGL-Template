@@ -10,6 +10,7 @@ public:
     void bind();
     void unbind();
     void setUniformMat4f(std::string name, glm::mat4 matrix);
+    unsigned int getID();
 private:
     unsigned int _ID;
 };
