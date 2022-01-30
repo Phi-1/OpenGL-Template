@@ -16,6 +16,8 @@ namespace resources {
 
     Texture loadTexture(std::string filepath, std::string name);
 
+    Texture getTexture(std::string name);
+
     void deleteShader(std::string name);
 
     void deleteTexture(std::string name);

@@ -45,11 +45,15 @@ namespace resources {
         int width, height, nrchannels;
         unsigned char* data = stbi_load(filepath.c_str(), &width, &height, &nrchannels, 0);
         if (!data) {
-            std::cout << "ERROR || Failed to load texture: '" << filepath << "'" << std::endl;
+            std::cout << "ERROR || Failed to load image: '" << filepath << "'" << std::endl;
         }
         Texture* texture = new Texture(data, width, height, nrchannels);
         textures[name] = texture;
         stbi_image_free(data);
+        return *textures[name];
+    }
+
+    Texture getTexture(std::string name) {
         return *textures[name];
     }
 
